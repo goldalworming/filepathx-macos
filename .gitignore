@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+
+# Xcode user-specific
+xcuserdata/
+*.xcuserstate
+*.xcuserdatad
+*.xccheckout
+*.moved-aside
+
+# Xcode build outputs
+build/
+DerivedData/
+*.xcworkspace/xcuserdata/
+
+# Swift package manager
+.swiftpm/
+.build/
+Package.resolved
+
+# Code coverage / profiling
+*.gcno
+*.gcda
+*.profraw
+
+# Other
+*.dSYM.zip
+*.dSYM
+*.hmap
+*.ipa

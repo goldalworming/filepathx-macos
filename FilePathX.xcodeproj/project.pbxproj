@@ -1,0 +1,420 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3A0000000000000000000001 /* FilePathXApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000001 /* FilePathXApp.swift */; };
+		3A0000000000000000000002 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000002 /* AppModel.swift */; };
+		3A0000000000000000000003 /* BrowserTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000003 /* BrowserTab.swift */; };
+		3A0000000000000000000004 /* FileEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000004 /* FileEntry.swift */; };
+		3A0000000000000000000005 /* ViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000005 /* ViewMode.swift */; };
+		3A0000000000000000000006 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000006 /* SidebarItem.swift */; };
+		3A0000000000000000000007 /* FileClipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000007 /* FileClipboard.swift */; };
+		3A0000000000000000000008 /* FileSystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000008 /* FileSystemService.swift */; };
+		3A0000000000000000000009 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000009 /* ContentView.swift */; };
+		3A000000000000000000000A /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000000A /* SidebarView.swift */; };
+		3A000000000000000000000B /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000000B /* TabBarView.swift */; };
+		3A000000000000000000000C /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000000C /* BrowserView.swift */; };
+		3A000000000000000000000D /* HeaderToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000000D /* HeaderToolbar.swift */; };
+		3A000000000000000000000E /* BreadcrumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000000E /* BreadcrumbView.swift */; };
+		3A000000000000000000000F /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000000F /* DetailsView.swift */; };
+		3A0000000000000000000010 /* IconGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000010 /* IconGridView.swift */; };
+		3A0000000000000000000011 /* FileIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000011 /* FileIcon.swift */; };
+		3A0000000000000000000012 /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000012 /* StatusBarView.swift */; };
+		3A0000000000000000000013 /* FileContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000013 /* FileContextMenu.swift */; };
+		3A0000000000000000000014 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000014 /* Assets.xcassets */; };
+		3A0000000000000000000016 /* KeyboardShortcutMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000016 /* KeyboardShortcutMonitor.swift */; };
+		3A0000000000000000000019 /* BatchRenameInline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000019 /* BatchRenameInline.swift */; };
+		3A000000000000000000001A /* HorizontalWheelScroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000001A /* HorizontalWheelScroller.swift */; };
+		3A000000000000000000001B /* Panel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000001B /* Panel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1A0000000000000000000005 /* FilePathX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilePathX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A0000000000000000000001 /* FilePathXApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePathXApp.swift; sourceTree = "<group>"; };
+		2A0000000000000000000002 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		2A0000000000000000000003 /* BrowserTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserTab.swift; sourceTree = "<group>"; };
+		2A0000000000000000000004 /* FileEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileEntry.swift; sourceTree = "<group>"; };
+		2A0000000000000000000005 /* ViewMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMode.swift; sourceTree = "<group>"; };
+		2A0000000000000000000006 /* SidebarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
+		2A0000000000000000000007 /* FileClipboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileClipboard.swift; sourceTree = "<group>"; };
+		2A0000000000000000000008 /* FileSystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemService.swift; sourceTree = "<group>"; };
+		2A0000000000000000000009 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2A000000000000000000000A /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
+		2A000000000000000000000B /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		2A000000000000000000000C /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
+		2A000000000000000000000D /* HeaderToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderToolbar.swift; sourceTree = "<group>"; };
+		2A000000000000000000000E /* BreadcrumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadcrumbView.swift; sourceTree = "<group>"; };
+		2A000000000000000000000F /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
+		2A0000000000000000000010 /* IconGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconGridView.swift; sourceTree = "<group>"; };
+		2A0000000000000000000011 /* FileIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIcon.swift; sourceTree = "<group>"; };
+		2A0000000000000000000012 /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
+		2A0000000000000000000013 /* FileContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileContextMenu.swift; sourceTree = "<group>"; };
+		2A0000000000000000000014 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2A0000000000000000000015 /* FilePathX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FilePathX.entitlements; sourceTree = "<group>"; };
+		2A0000000000000000000016 /* KeyboardShortcutMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutMonitor.swift; sourceTree = "<group>"; };
+		2A0000000000000000000019 /* BatchRenameInline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchRenameInline.swift; sourceTree = "<group>"; };
+		2A000000000000000000001A /* HorizontalWheelScroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalWheelScroller.swift; sourceTree = "<group>"; };
+		2A000000000000000000001B /* Panel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panel.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1A000000000000000000000D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1A0000000000000000000002 = {
+			isa = PBXGroup;
+			children = (
+				1A000000000000000000000F /* FilePathX */,
+				1A0000000000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1A0000000000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1A0000000000000000000005 /* FilePathX.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1A000000000000000000000F /* FilePathX */ = {
+			isa = PBXGroup;
+			children = (
+				2A0000000000000000000001 /* FilePathXApp.swift */,
+				2A0000000000000000000009 /* ContentView.swift */,
+				2A0000000000000000000002 /* AppModel.swift */,
+				2A0000000000000000000003 /* BrowserTab.swift */,
+				2A0000000000000000000004 /* FileEntry.swift */,
+				2A0000000000000000000005 /* ViewMode.swift */,
+				2A0000000000000000000006 /* SidebarItem.swift */,
+				2A0000000000000000000007 /* FileClipboard.swift */,
+				2A0000000000000000000008 /* FileSystemService.swift */,
+				2A000000000000000000000A /* SidebarView.swift */,
+				2A000000000000000000000B /* TabBarView.swift */,
+				2A000000000000000000000C /* BrowserView.swift */,
+				2A000000000000000000000D /* HeaderToolbar.swift */,
+				2A000000000000000000000E /* BreadcrumbView.swift */,
+				2A000000000000000000000F /* DetailsView.swift */,
+				2A0000000000000000000010 /* IconGridView.swift */,
+				2A0000000000000000000011 /* FileIcon.swift */,
+				2A0000000000000000000012 /* StatusBarView.swift */,
+				2A0000000000000000000013 /* FileContextMenu.swift */,
+				2A0000000000000000000016 /* KeyboardShortcutMonitor.swift */,
+				2A0000000000000000000019 /* BatchRenameInline.swift */,
+				2A000000000000000000001A /* HorizontalWheelScroller.swift */,
+				2A000000000000000000001B /* Panel.swift */,
+				2A0000000000000000000014 /* Assets.xcassets */,
+				2A0000000000000000000015 /* FilePathX.entitlements */,
+			);
+			path = FilePathX;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1A0000000000000000000004 /* FilePathX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A0000000000000000000006 /* Build configuration list for PBXNativeTarget "FilePathX" */;
+			buildPhases = (
+				1A000000000000000000000C /* Sources */,
+				1A000000000000000000000D /* Frameworks */,
+				1A000000000000000000000E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FilePathX;
+			productName = FilePathX;
+			productReference = 1A0000000000000000000005 /* FilePathX.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1A0000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 2650;
+				TargetAttributes = {
+					1A0000000000000000000004 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 1A0000000000000000000007 /* Build configuration list for PBXProject "FilePathX" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1A0000000000000000000002;
+			productRefGroup = 1A0000000000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1A0000000000000000000004 /* FilePathX */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1A000000000000000000000E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A0000000000000000000014 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1A000000000000000000000C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A0000000000000000000001 /* FilePathXApp.swift in Sources */,
+				3A0000000000000000000009 /* ContentView.swift in Sources */,
+				3A0000000000000000000002 /* AppModel.swift in Sources */,
+				3A0000000000000000000003 /* BrowserTab.swift in Sources */,
+				3A0000000000000000000004 /* FileEntry.swift in Sources */,
+				3A0000000000000000000005 /* ViewMode.swift in Sources */,
+				3A0000000000000000000006 /* SidebarItem.swift in Sources */,
+				3A0000000000000000000007 /* FileClipboard.swift in Sources */,
+				3A0000000000000000000008 /* FileSystemService.swift in Sources */,
+				3A000000000000000000000A /* SidebarView.swift in Sources */,
+				3A000000000000000000000B /* TabBarView.swift in Sources */,
+				3A000000000000000000000C /* BrowserView.swift in Sources */,
+				3A000000000000000000000D /* HeaderToolbar.swift in Sources */,
+				3A000000000000000000000E /* BreadcrumbView.swift in Sources */,
+				3A000000000000000000000F /* DetailsView.swift in Sources */,
+				3A0000000000000000000010 /* IconGridView.swift in Sources */,
+				3A0000000000000000000011 /* FileIcon.swift in Sources */,
+				3A0000000000000000000012 /* StatusBarView.swift in Sources */,
+				3A0000000000000000000013 /* FileContextMenu.swift in Sources */,
+				3A0000000000000000000016 /* KeyboardShortcutMonitor.swift in Sources */,
+				3A0000000000000000000019 /* BatchRenameInline.swift in Sources */,
+				3A000000000000000000001A /* HorizontalWheelScroller.swift in Sources */,
+				3A000000000000000000001B /* Panel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1A0000000000000000000008 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FilePathX/FilePathX.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.filepathx.FilePathX;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		1A0000000000000000000009 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FilePathX/FilePathX.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.filepathx.FilePathX;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		1A000000000000000000000A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1A000000000000000000000B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1A0000000000000000000006 /* Build configuration list for PBXNativeTarget "FilePathX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A0000000000000000000008 /* Debug */,
+				1A0000000000000000000009 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1A0000000000000000000007 /* Build configuration list for PBXProject "FilePathX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A000000000000000000000A /* Debug */,
+				1A000000000000000000000B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1A0000000000000000000001 /* Project object */;
+}
