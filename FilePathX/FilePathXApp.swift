@@ -20,12 +20,6 @@ struct FilePathXApp: App {
                     .keyboardShortcut("w", modifiers: .command)
             }
             CommandGroup(after: .sidebar) {
-                Button("Back") { app.activeTab?.goBack() }
-                    .keyboardShortcut("[", modifiers: .command)
-                    .disabled(app.activeTab?.canGoBack != true)
-                Button("Forward") { app.activeTab?.goForward() }
-                    .keyboardShortcut("]", modifiers: .command)
-                    .disabled(app.activeTab?.canGoForward != true)
                 Button("Enclosing Folder") { app.activeTab?.goUp() }
                     .keyboardShortcut(.upArrow, modifiers: .command)
                     .disabled(app.activeTab?.canGoUp != true)
@@ -38,6 +32,19 @@ struct FilePathXApp: App {
             }
             CommandGroup(after: .pasteboard) {
                 Divider()
+                Button("New File") {
+                    guard let tab = app.activeTab else { return }
+                    if let url = FileSystemService.createFile(in: tab.url) {
+                        tab.reload()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                            if let entry = tab.entries.first(where: { $0.url == url }) {
+                                tab.selection = [entry.id]
+                                tab.beginRename(id: entry.id)
+                            }
+                        }
+                    }
+                }
+                .keyboardShortcut("n", modifiers: .command)
                 Button("New Folder") {
                     guard let tab = app.activeTab else { return }
                     if let url = FileSystemService.createFolder(in: tab.url) {

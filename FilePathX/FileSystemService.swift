@@ -47,8 +47,14 @@ enum FileSystemService {
                 NSLog("trash failed for \(url.path): \(error.localizedDescription)")
             }
         }
+        if ok > 0 { trashSound?.play() }
         return ok
     }
+
+    private static let trashSound: NSSound? = NSSound(
+        contentsOfFile: "/System/Library/Components/CoreAudio.component/Contents/SharedSupport/SystemSounds/finder/move to trash.aif",
+        byReference: true
+    )
 
     @discardableResult
     static func rename(_ url: URL, to newName: String) -> URL? {

@@ -156,6 +156,13 @@ final class KeyboardShortcutMonitor {
         case 42: // ⌘\ → toggle split pane
             app.toggleSplit()
             return nil
+        case 51: // ⌘⌫ → move selection to trash
+            guard !tab.selection.isEmpty else { return nil }
+            let urls = tab.selectedURLs
+            FileSystemService.trash(urls: urls)
+            tab.selection.removeAll()
+            tab.reload()
+            return nil
         default: break
         }
         return event

@@ -22,13 +22,13 @@ Tab-driven, keyboard-friendly, with a dual-pane mode for moving files around.
 | `Backspace` · `⌘↑` | Go to parent folder |
 | `⌘E` · `F2` | Rename (batch if more than one selected) |
 | `⌘C` / `⌘X` / `⌘V` | Copy / Cut / Paste |
+| `⌘⌫` | Move to Trash |
+| `⌘N` / `⌘⇧N` | New file / New folder |
 | `⌘T` / `⌘W` | New / close tab |
 | `⌃Tab` / `⌃⇧Tab` | Next / previous tab |
-| `⌘[` / `⌘]` | Back / Forward |
 | `⌘\` | Toggle split view |
 | `Tab` | Switch panel (when split) |
 | `⌃D` | Open Terminal at current folder |
-| `⌘⇧N` | New folder |
 | Arrows | Move selection |
 | `⇧`+Arrows | Extend selection |
 | `Esc` | Cancel rename |
