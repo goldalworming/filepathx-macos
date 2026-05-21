@@ -38,8 +38,17 @@ struct DetailsView: View {
                         TextField("", text: $tab.renameText)
                             .textFieldStyle(.roundedBorder)
                             .focused($renameFocused)
-                            .onSubmit { tab.commitRename() }
-                            .onExitCommand { tab.cancelRename() }
+                            .onSubmit {
+                                tab.commitRename()
+                                // TextField hands up first responder on submit;
+                                // restore it to the data table so the renamed
+                                // row keeps its blue (active) highlight.
+                                app.transferFocusToActivePanel()
+                            }
+                            .onExitCommand {
+                                tab.cancelRename()
+                                app.transferFocusToActivePanel()
+                            }
                     } else if tab.batchActive, tab.selection.contains(entry.id) {
                         BatchRenameInline(entry: entry,
                                           typed: tab.batchTyped,
@@ -94,6 +103,13 @@ struct DetailsView: View {
         .onChange(of: tab.renamingID) { new in
             guard new != nil else { return }
             DispatchQueue.main.async { renameFocused = true }
+        }
+        .onChange(of: tab.pendingScrollToID) { id in
+            guard id != nil else { return }
+            // The icon-grid path uses ScrollViewReader; for the Table we go
+            // through AppKit's scrollRowToVisible via AppModel.
+            app.scrollActiveSelectionIntoView()
+            tab.pendingScrollToID = nil
         }
     }
 }

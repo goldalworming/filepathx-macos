@@ -33,29 +33,15 @@ struct FilePathXApp: App {
             CommandGroup(after: .pasteboard) {
                 Divider()
                 Button("New File") {
-                    guard let tab = app.activeTab else { return }
-                    if let url = FileSystemService.createFile(in: tab.url) {
-                        tab.reload()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                            if let entry = tab.entries.first(where: { $0.url == url }) {
-                                tab.selection = [entry.id]
-                                tab.beginRename(id: entry.id)
-                            }
-                        }
-                    }
+                    guard let tab = app.activeTab,
+                          let url = FileSystemService.createFile(in: tab.url) else { return }
+                    tab.reloadAndRename(url)
                 }
                 .keyboardShortcut("n", modifiers: .command)
                 Button("New Folder") {
-                    guard let tab = app.activeTab else { return }
-                    if let url = FileSystemService.createFolder(in: tab.url) {
-                        tab.reload()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                            if let entry = tab.entries.first(where: { $0.url == url }) {
-                                tab.selection = [entry.id]
-                                tab.beginRename(id: entry.id)
-                            }
-                        }
-                    }
+                    guard let tab = app.activeTab,
+                          let url = FileSystemService.createFolder(in: tab.url) else { return }
+                    tab.reloadAndRename(url)
                 }
                 .keyboardShortcut("n", modifiers: [.command, .shift])
             }

@@ -25,6 +25,11 @@ final class BrowserTab: ObservableObject, Identifiable {
     /// ↑/↓ moves a whole row in icon modes.
     @Published var iconGridColumns: Int = 1
 
+    /// Set when something (e.g. ⌘N) needs the row/cell to scroll into view.
+    /// `IconGridView` observes this via `ScrollViewReader`; the Details path
+    /// is driven straight through AppKit on `NSTableView`.
+    @Published var pendingScrollToID: FileEntry.ID? = nil
+
     /// Set while we're applying persisted prefs to avoid re-saving them.
     private var applyingPrefs = false
 
@@ -35,6 +40,11 @@ final class BrowserTab: ObservableObject, Identifiable {
     /// select the entry whose name matches (e.g. for "go up to parent" we want
     /// the folder we came from to stay focused).
     private var pendingFocusName: String? = nil
+
+    /// Set before a `reload()` triggered by ⌘N / ⌘⇧N. Once entries arrive we
+    /// select that URL, scroll to it, and immediately enter rename. Removes
+    /// the previous race against a fixed `asyncAfter` delay.
+    private var pendingRenameURL: URL? = nil
 
     // Inline batch rename state (C-source style): each selected row shows
     // `<original stem minus chop><typed><cursor>.<ext>`.
@@ -72,6 +82,13 @@ final class BrowserTab: ObservableObject, Identifiable {
     func loadIfNeeded() {
         guard !hasLoaded else { return }
         hasLoaded = true
+        reload()
+    }
+
+    /// Reload the directory and, once entries arrive, jump straight into
+    /// rename for the given URL. Used by ⌘N / ⌘⇧N.
+    func reloadAndRename(_ url: URL) {
+        pendingRenameURL = url
         reload()
     }
 
@@ -171,14 +188,24 @@ final class BrowserTab: ObservableObject, Identifiable {
                 guard let self else { return }
                 guard self.url == target else { return }
                 self.entries = self.applySort(loaded)
-                if let name = self.pendingFocusName,
-                   let entry = self.entries.first(where: { $0.name == name }) {
+                // Match by path so a folder URL like ".../foo/" (with the
+                // trailing slash FileManager hands back from directory
+                // enumeration) still matches ".../foo" returned by createFolder.
+                if let url = self.pendingRenameURL,
+                   let entry = self.entries.first(where: { $0.url.path == url.path }) {
+                    self.selection = [entry.id]
+                    self.pendingScrollToID = entry.id
+                    self.renameText = entry.name
+                    self.renamingID = entry.id
+                } else if let name = self.pendingFocusName,
+                          let entry = self.entries.first(where: { $0.name == name }) {
                     self.selection = [entry.id]
                 } else if self.selection.isEmpty, let first = self.entries.first {
                     // No explicit focus target and nothing selected → focus first row
                     // so the keyboard user always has somewhere to arrow-from.
                     self.selection = [first.id]
                 }
+                self.pendingRenameURL = nil
                 self.pendingFocusName = nil
             }
         }
@@ -308,6 +335,10 @@ final class BrowserTab: ObservableObject, Identifiable {
         renameText = ""
         guard !trimmed.isEmpty, trimmed != entry.name else { return }
         if FileSystemService.rename(entry.url, to: trimmed) != nil {
+            // FileEntry.id == URL, so the old selection becomes stale after
+            // rename. pendingFocusName re-binds selection to the new entry
+            // once reload finishes.
+            pendingFocusName = trimmed
             reload()
         }
     }

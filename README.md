@@ -11,7 +11,6 @@ Tab-driven, keyboard-friendly, with a dual-pane mode for moving files around.
 - **Dual pane** (`⌘\`) — drag files between panels to copy, hold `⌘` to move.
 - **Three view modes** — details table, small icons, large icons. Images and PDFs get real thumbnails (QuickLook).
 - **Inline batch rename** — select 2+ files, hit `⌘E`. Type to append, backspace to chop characters off, Return to commit.
-- **Real drag-out** — drop a file into Sublime, Safari, Terminal, etc. and the receiver gets the actual file path (not a `~/Library/Caches/...` copy).
 - **Remembers itself** — view mode and sort per folder, plus the tabs and panels you had open last time.
 
 ## Shortcuts

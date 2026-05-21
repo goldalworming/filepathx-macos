@@ -66,6 +66,31 @@ final class AppModel: ObservableObject {
         }
     }
 
+    /// Scrolls the active panel's view so the current selection is on screen.
+    /// Used by `⌘N` / `⌘⇧N` since "untitled file"/"untitled folder" usually
+    /// sorts deep in the list and would otherwise appear off-screen.
+    func scrollActiveSelectionIntoView() {
+        DispatchQueue.main.async {
+            guard let tab = self.activeTab,
+                  let id = tab.selection.first else { return }
+
+            if tab.viewMode == .details {
+                guard let row = tab.entries.firstIndex(where: { $0.id == id }),
+                      let window = NSApp.keyWindow else { return }
+                let allTables = Self.allTableViews(in: window.contentView)
+                let panelCount = self.panels.count
+                guard allTables.count >= panelCount,
+                      self.activePanelIndex < panelCount else { return }
+                let dataTables = Array(allTables.suffix(panelCount))
+                dataTables[self.activePanelIndex].scrollRowToVisible(row)
+            } else {
+                // Icon modes use SwiftUI's ScrollViewReader; publish the id
+                // and let IconGridView react.
+                tab.pendingScrollToID = id
+            }
+        }
+    }
+
     /// Transfers AppKit first responder to the active panel's NSTableView so
     /// the row selection actually renders as "focused" (blue) and arrow keys
     /// drive the right table. SwiftUI's `.environment(\.controlActiveState)`

@@ -41,10 +41,11 @@ struct IconGridView: View {
     }
 
     private var gridContent: some View {
-        ScrollView {
-            LazyVGrid(columns: columns, alignment: .leading, spacing: 6) {
-                ForEach(tab.entries) { entry in
-                    GridCell(entry: entry,
+        ScrollViewReader { proxy in
+            ScrollView {
+                LazyVGrid(columns: columns, alignment: .leading, spacing: 6) {
+                    ForEach(tab.entries) { entry in
+                        GridCell(entry: entry,
                              iconSize: iconSize,
                              cellHeight: cellHeight,
                              selected: tab.selection.contains(entry.id),
@@ -55,8 +56,14 @@ struct IconGridView: View {
                              batchChop: tab.batchChop,
                              renameBinding: $tab.renameText,
                              renameFocused: $renameFocused,
-                             onCommitRename: tab.commitRename,
-                             onCancelRename: tab.cancelRename)
+                             onCommitRename: {
+                                 tab.commitRename()
+                                 app.transferFocusToActivePanel()
+                             },
+                             onCancelRename: {
+                                 tab.cancelRename()
+                                 app.transferFocusToActivePanel()
+                             })
                         .frame(width: cellWidth, height: cellHeight)
                         .contentShape(Rectangle())
                         .onTapGesture(count: 2) {
@@ -95,6 +102,14 @@ struct IconGridView: View {
         .onChange(of: tab.renamingID) { new in
             guard new != nil else { return }
             DispatchQueue.main.async { renameFocused = true }
+        }
+        .onChange(of: tab.pendingScrollToID) { id in
+            guard let id else { return }
+            withAnimation(.easeInOut(duration: 0.15)) {
+                proxy.scrollTo(id, anchor: .center)
+            }
+            tab.pendingScrollToID = nil
+        }
         }
     }
 }
