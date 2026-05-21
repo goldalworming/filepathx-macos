@@ -8,11 +8,25 @@ final class BrowserTab: ObservableObject, Identifiable {
 
     @Published var url: URL
     @Published private(set) var entries: [FileEntry] = []
-    @Published var viewMode: ViewMode = .details
+    @Published var viewMode: ViewMode = .details {
+        didSet { savePrefsIfNeeded() }
+    }
     @Published var selection: Set<FileEntry.ID> = []
 
-    @Published var sortColumn: SortColumn = .name
-    @Published var sortAscending: Bool = true
+    @Published var sortColumn: SortColumn = .name {
+        didSet { savePrefsIfNeeded() }
+    }
+    @Published var sortAscending: Bool = true {
+        didSet { savePrefsIfNeeded() }
+    }
+
+    /// How many columns the icon grid is currently showing (kept in sync by
+    /// `IconGridView` via GeometryReader). Used by the keyboard monitor so
+    /// ↑/↓ moves a whole row in icon modes.
+    @Published var iconGridColumns: Int = 1
+
+    /// Set while we're applying persisted prefs to avoid re-saving them.
+    private var applyingPrefs = false
 
     @Published var renamingID: FileEntry.ID? = nil
     @Published var renameText: String = ""
@@ -41,11 +55,46 @@ final class BrowserTab: ObservableObject, Identifiable {
     var canGoForward: Bool { historyIndex < history.count - 1 }
     var canGoUp: Bool { url.path != "/" }
 
-    init(url: URL) {
+    /// Becomes true after the first `reload()` runs for this tab. We defer the
+    /// initial load until `BrowserView.onAppear` so restored sessions with
+    /// many tabs don't scan every directory at launch — only the currently
+    /// active tab pays the I/O cost up front.
+    private var hasLoaded = false
+
+    init(url: URL, autoLoad: Bool = true) {
         self.url = url
         self.history = [url]
         self.historyIndex = 0
+        applyPrefs(for: url)
+        if autoLoad { loadIfNeeded() }
+    }
+
+    func loadIfNeeded() {
+        guard !hasLoaded else { return }
+        hasLoaded = true
         reload()
+    }
+
+    /// Loads persisted view-mode / sort prefs for `url` (or applies defaults).
+    /// The `applyingPrefs` guard prevents the didSet observers from writing
+    /// the same values back to disk.
+    private func applyPrefs(for url: URL) {
+        applyingPrefs = true
+        defer { applyingPrefs = false }
+        let prefs = FolderPreferences.shared.prefs(for: url) ?? .default
+        viewMode = prefs.viewMode
+        sortColumn = prefs.sortColumn
+        sortAscending = prefs.sortAscending
+    }
+
+    private func savePrefsIfNeeded() {
+        guard !applyingPrefs else { return }
+        FolderPreferences.shared.save(
+            FolderPrefs(viewMode: viewMode,
+                        sortColumn: sortColumn,
+                        sortAscending: sortAscending),
+            for: url
+        )
     }
 
     // MARK: - Navigation
@@ -74,7 +123,9 @@ final class BrowserTab: ObservableObject, Identifiable {
         url = resolved
         selection.removeAll()
         pendingFocusName = focusName
+        applyPrefs(for: resolved)
         reload()
+        SessionStore.shared.scheduleSave()
     }
 
     func goBack() {
@@ -82,7 +133,9 @@ final class BrowserTab: ObservableObject, Identifiable {
         historyIndex -= 1
         url = history[historyIndex]
         selection.removeAll()
+        applyPrefs(for: url)
         reload()
+        SessionStore.shared.scheduleSave()
     }
 
     func goForward() {
@@ -90,7 +143,9 @@ final class BrowserTab: ObservableObject, Identifiable {
         historyIndex += 1
         url = history[historyIndex]
         selection.removeAll()
+        applyPrefs(for: url)
         reload()
+        SessionStore.shared.scheduleSave()
     }
 
     func goUp() {
@@ -103,6 +158,7 @@ final class BrowserTab: ObservableObject, Identifiable {
     // MARK: - Loading
 
     func reload() {
+        hasLoaded = true
         loadTask?.cancel()
         let target = url
         loadTask = Task { [weak self] in
@@ -118,6 +174,10 @@ final class BrowserTab: ObservableObject, Identifiable {
                 if let name = self.pendingFocusName,
                    let entry = self.entries.first(where: { $0.name == name }) {
                     self.selection = [entry.id]
+                } else if self.selection.isEmpty, let first = self.entries.first {
+                    // No explicit focus target and nothing selected → focus first row
+                    // so the keyboard user always has somewhere to arrow-from.
+                    self.selection = [first.id]
                 }
                 self.pendingFocusName = nil
             }

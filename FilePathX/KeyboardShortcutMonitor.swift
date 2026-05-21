@@ -45,24 +45,34 @@ final class KeyboardShortcutMonitor {
 
         let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
 
-        // Arrow up/down — let SwiftUI Table handle natively when it's first
-        // responder (it scrolls-to-visible and updates selection via our
-        // binding). For icon-grid mode there's no Table, so we route arrow
-        // keys to active tab's selection ourselves.
-        if event.keyCode == 126 || event.keyCode == 125 {
-            let direction = event.keyCode == 125 ? 1 : -1
-            if tab.viewMode != .details {
-                if flags.isEmpty {
-                    moveSelection(tab: tab, by: direction, extend: false)
-                    return nil
+        // Arrow keys. Note: macOS sets .function (and .numericPad on the keypad)
+        // on every arrow event, so strip those before testing for "no modifier".
+        if [123, 124, 125, 126].contains(event.keyCode) {
+            let mods = flags.subtracting([.function, .numericPad])
+            if mods.isEmpty || mods == .shift {
+                let extend = mods == .shift
+                let cols = max(1, tab.iconGridColumns)
+                let delta: Int
+                switch event.keyCode {
+                case 126: delta = tab.viewMode == .details ? -1     : -cols // up
+                case 125: delta = tab.viewMode == .details ?  1     :  cols // down
+                case 123: delta = -1                                          // left
+                case 124: delta =  1                                          // right
+                default:  delta = 0
                 }
-                if flags == .shift {
-                    moveSelection(tab: tab, by: direction, extend: true)
-                    return nil
+                // In details mode, only up/down/shift+up/down navigate the rows.
+                // Left/right do nothing in details (match Finder).
+                if tab.viewMode == .details, event.keyCode == 123 || event.keyCode == 124 {
+                    return event
                 }
+                moveSelection(tab: tab, by: delta, extend: extend)
+                // Restore first responder to the active panel so the row glows
+                // blue again and any *next* keystroke (Return, Backspace, …)
+                // also reaches the table.
+                app.transferFocusToActivePanel()
+                return nil
             }
-            // Details mode + arrow: fall through, let Table handle.
-            // Cmd+Up/Down: fall through to Command handler below.
+            // ⌘↑ / ⌘↓ fall through to the command-handler below.
         }
 
         // No modifiers
@@ -97,6 +107,19 @@ final class KeyboardShortcutMonitor {
         // ⌃D → open Terminal at the current folder
         if flags == .control, event.keyCode == 2 {
             FileSystemService.openInTerminal(tab.url)
+            return nil
+        }
+
+        // ⌃Tab → next tab in the active panel
+        if flags == .control, event.keyCode == 48 {
+            app.activePanel.nextTab()
+            app.transferFocusToActivePanel()
+            return nil
+        }
+        // ⌃⇧Tab → previous tab
+        if flags == [.control, .shift], event.keyCode == 48 {
+            app.activePanel.prevTab()
+            app.transferFocusToActivePanel()
             return nil
         }
 

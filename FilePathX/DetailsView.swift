@@ -10,6 +10,15 @@ struct DetailsView: View {
 
     /// Selection writes auto-activate the panel; reads always reflect the real
     /// `tab.selection` so Table keeps its scroll/cursor state across switches.
+    /// URLs to vend when this row is dragged: the full multi-selection if the
+    /// row is part of it, otherwise just this row.
+    private func dragURLs(for entry: FileEntry) -> [URL] {
+        if tab.selection.contains(entry.id) && tab.selection.count > 1 {
+            return tab.selectedURLs
+        }
+        return [entry.url]
+    }
+
     private var selectionBinding: Binding<Set<FileEntry.ID>> {
         Binding(
             get: { tab.selection },
@@ -41,21 +50,7 @@ struct DetailsView: View {
                             .truncationMode(.middle)
                     }
                 }
-                .draggable(entry.url) {
-                    HStack(spacing: 4) {
-                        FileIcon(url: entry.url, size: 16)
-                        Text(entry.name)
-                            .lineLimit(1)
-                            .font(.system(size: 12))
-                    }
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(
-                        RoundedRectangle(cornerRadius: 6)
-                            .fill(Color(NSColor.controlBackgroundColor))
-                            .shadow(color: .black.opacity(0.25), radius: 4, y: 2)
-                    )
-                }
+                .fileDragSource(dragURLs(for: entry))
             }
             .width(min: 180, ideal: 320)
 

@@ -11,11 +11,36 @@ struct IconGridView: View {
 
     @FocusState private var renameFocused: Bool
 
+    private func dragURLs(for entry: FileEntry) -> [URL] {
+        if tab.selection.contains(entry.id) && tab.selection.count > 1 {
+            return tab.selectedURLs
+        }
+        return [entry.url]
+    }
+
     private var columns: [GridItem] {
         [GridItem(.adaptive(minimum: cellWidth, maximum: cellWidth * 1.6), spacing: 6)]
     }
 
     var body: some View {
+        GeometryReader { geo in
+            gridContent
+                .onAppear { updateColumnCount(width: geo.size.width) }
+                .onChange(of: geo.size.width) { w in updateColumnCount(width: w) }
+        }
+    }
+
+    private func updateColumnCount(width: CGFloat) {
+        // LazyVGrid with .adaptive(minimum: cellWidth) + spacing 6, inside 10pt padding.
+        let usable = max(0, width - 20)
+        let pitch = cellWidth + 6
+        let cols = max(1, Int((usable + 6) / pitch))
+        if tab.iconGridColumns != cols {
+            tab.iconGridColumns = cols
+        }
+    }
+
+    private var gridContent: some View {
         ScrollView {
             LazyVGrid(columns: columns, alignment: .leading, spacing: 6) {
                 ForEach(tab.entries) { entry in
@@ -56,21 +81,7 @@ struct IconGridView: View {
                                 selectionIDs: tab.selection.contains(entry.id) ? tab.selection : [entry.id]
                             )
                         }
-                        .draggable(entry.url) {
-                            VStack(spacing: 4) {
-                                FileIcon(url: entry.url, size: 48)
-                                Text(entry.name)
-                                    .font(.system(size: 11))
-                                    .lineLimit(1)
-                                    .truncationMode(.middle)
-                            }
-                            .padding(8)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color(NSColor.controlBackgroundColor))
-                                    .shadow(color: .black.opacity(0.3), radius: 6, y: 3)
-                            )
-                        }
+                        .fileDragSource(dragURLs(for: entry))
                 }
             }
             .padding(10)

@@ -1,6 +1,6 @@
 import Foundation
 
-enum ViewMode: String, CaseIterable, Identifiable, Hashable {
+enum ViewMode: String, CaseIterable, Identifiable, Hashable, Codable {
     case details
     case smallIcons
     case largeIcons
@@ -24,7 +24,7 @@ enum ViewMode: String, CaseIterable, Identifiable, Hashable {
     }
 }
 
-enum SortColumn: String, Hashable {
+enum SortColumn: String, Hashable, Codable {
     case name
     case kind
     case modified

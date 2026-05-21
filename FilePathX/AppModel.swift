@@ -4,7 +4,7 @@ import AppKit
 
 @MainActor
 final class AppModel: ObservableObject {
-    @Published var panels: [Panel] = [Panel()]
+    @Published var panels: [Panel]
     @Published var activePanelIndex: Int = 0
     @Published var sidebarItems: [SidebarItem] = SidebarItem.defaults
     @Published var bookmarks: [SidebarItem] = []
@@ -18,6 +18,14 @@ final class AppModel: ObservableObject {
     var isSplit: Bool { panels.count >= 2 }
 
     init() {
+        if let saved = SessionStore.shared.load(), !saved.panels.isEmpty {
+            self.panels = saved.panels.map { Panel(state: $0) }
+            self.activePanelIndex = min(max(0, saved.activePanelIndex), saved.panels.count - 1)
+        } else {
+            self.panels = [Panel()]
+            self.activePanelIndex = 0
+        }
+        SessionStore.shared.app = self
         loadBookmarks()
         keyboardMonitor = KeyboardShortcutMonitor(app: self)
     }
@@ -43,6 +51,7 @@ final class AppModel: ObservableObject {
             panels.append(Panel(url: startUrl))
             activePanelIndex = 1
         }
+        SessionStore.shared.scheduleSave()
     }
 
     func setActivePanel(_ panel: Panel) {
@@ -53,6 +62,7 @@ final class AppModel: ObservableObject {
         // calls it explicitly from the monitor.
         if let idx = panels.firstIndex(where: { $0.id == panel.id }) {
             activePanelIndex = idx
+            SessionStore.shared.scheduleSave()
         }
     }
 

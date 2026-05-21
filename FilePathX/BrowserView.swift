@@ -13,6 +13,10 @@ struct BrowserView: View {
             Divider()
             StatusBarView(tab: tab)
         }
+        // Restored tabs defer their first directory listing until shown —
+        // this fires only for the currently-rendered active tab, so
+        // re-opening the app with 20 tabs only does 1 (or 2 in split) scans.
+        .onAppear { tab.loadIfNeeded() }
     }
 
     @ViewBuilder

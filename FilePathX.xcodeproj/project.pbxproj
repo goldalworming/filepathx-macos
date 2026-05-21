@@ -31,6 +31,9 @@
 		3A0000000000000000000019 /* BatchRenameInline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000019 /* BatchRenameInline.swift */; };
 		3A000000000000000000001A /* HorizontalWheelScroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000001A /* HorizontalWheelScroller.swift */; };
 		3A000000000000000000001B /* Panel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000001B /* Panel.swift */; };
+		3A000000000000000000001C /* FileItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000001C /* FileItemProvider.swift */; };
+		3A000000000000000000001D /* FolderPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000001D /* FolderPreferences.swift */; };
+		3A000000000000000000001E /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000001E /* SessionStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +63,9 @@
 		2A0000000000000000000019 /* BatchRenameInline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchRenameInline.swift; sourceTree = "<group>"; };
 		2A000000000000000000001A /* HorizontalWheelScroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalWheelScroller.swift; sourceTree = "<group>"; };
 		2A000000000000000000001B /* Panel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panel.swift; sourceTree = "<group>"; };
+		2A000000000000000000001C /* FileItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileItemProvider.swift; sourceTree = "<group>"; };
+		2A000000000000000000001D /* FolderPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderPreferences.swift; sourceTree = "<group>"; };
+		2A000000000000000000001E /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +121,9 @@
 				2A0000000000000000000019 /* BatchRenameInline.swift */,
 				2A000000000000000000001A /* HorizontalWheelScroller.swift */,
 				2A000000000000000000001B /* Panel.swift */,
+				2A000000000000000000001C /* FileItemProvider.swift */,
+				2A000000000000000000001D /* FolderPreferences.swift */,
+				2A000000000000000000001E /* SessionStore.swift */,
 				2A0000000000000000000014 /* Assets.xcassets */,
 				2A0000000000000000000015 /* FilePathX.entitlements */,
 			);
@@ -213,6 +222,9 @@
 				3A0000000000000000000019 /* BatchRenameInline.swift in Sources */,
 				3A000000000000000000001A /* HorizontalWheelScroller.swift in Sources */,
 				3A000000000000000000001B /* Panel.swift in Sources */,
+				3A000000000000000000001C /* FileItemProvider.swift in Sources */,
+				3A000000000000000000001D /* FolderPreferences.swift in Sources */,
+				3A000000000000000000001E /* SessionStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

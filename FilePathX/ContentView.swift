@@ -29,6 +29,12 @@ struct ContentView: View {
             }
             .ignoresSafeArea(.container, edges: .top)
         }
+        .task {
+            // Move first responder onto the initial NSTableView so launch-time
+            // keyboard nav works and the first row shows blue (focused).
+            try? await Task.sleep(nanoseconds: 150_000_000)
+            app.transferFocusToActivePanel()
+        }
     }
 }
 

@@ -38,6 +38,7 @@ struct TabBarView: View {
 }
 
 private struct TabItemView: View {
+    @EnvironmentObject var app: AppModel
     @ObservedObject var panel: Panel
     @ObservedObject var tab: BrowserTab
     @State private var hovered = false
@@ -87,7 +88,12 @@ private struct TabItemView: View {
                 .strokeBorder(isActive ? Color.accentColor.opacity(0.55) : .clear, lineWidth: 1)
         )
         .contentShape(Rectangle())
-        .onTapGesture { panel.activeTabID = tab.id }
+        .onTapGesture {
+            panel.activeTabID = tab.id
+            // The new tab's NSTableView mounts asynchronously; wait one runloop
+            // tick before grabbing first responder so it actually exists.
+            app.transferFocusToActivePanel()
+        }
         .onHover { hovered = $0 }
     }
 }
