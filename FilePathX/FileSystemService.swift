@@ -70,34 +70,67 @@ enum FileSystemService {
         }
     }
 
+    /// What to do when a copy/move would overwrite an existing item.
+    enum ConflictAction { case replace, keepBoth, skip }
+
     @discardableResult
-    static func copy(urls: [URL], to destination: URL) -> Int {
-        let fm = FileManager.default
-        var ok = 0
-        for source in urls {
-            let target = uniqueDestination(in: destination, name: source.lastPathComponent)
-            do {
-                try fm.copyItem(at: source, to: target)
-                ok += 1
-            } catch {
-                NSLog("copy failed: \(error.localizedDescription)")
-            }
-        }
-        return ok
+    static func copy(urls: [URL], to destination: URL,
+                     onConflict: (URL) -> ConflictAction = { _ in .keepBoth }) -> Int {
+        transfer(urls: urls, to: destination, move: false, onConflict: onConflict)
     }
 
     @discardableResult
-    static func move(urls: [URL], to destination: URL) -> Int {
+    static func move(urls: [URL], to destination: URL,
+                     onConflict: (URL) -> ConflictAction = { _ in .keepBoth }) -> Int {
+        transfer(urls: urls, to: destination, move: true, onConflict: onConflict)
+    }
+
+    /// Shared backbone for copy/move. Same-folder copy auto-renames (the
+    /// classic "foo 2.txt" duplicate behavior). Cross-folder collisions ask
+    /// the caller via `onConflict`. Same-folder move is a no-op.
+    private static func transfer(urls: [URL], to destination: URL, move: Bool,
+                                 onConflict: (URL) -> ConflictAction) -> Int {
         let fm = FileManager.default
         var ok = 0
         for source in urls {
-            if source.deletingLastPathComponent() == destination { continue }
-            let target = uniqueDestination(in: destination, name: source.lastPathComponent)
+            let sameFolder = source.deletingLastPathComponent().standardizedFileURL.path
+                == destination.standardizedFileURL.path
+            if move && sameFolder { continue }
+
+            let naive = destination.appendingPathComponent(source.lastPathComponent)
+            let exists = fm.fileExists(atPath: naive.path)
+
+            let target: URL?
+            if !exists {
+                target = naive
+            } else if sameFolder {
+                target = uniqueDestination(in: destination, name: source.lastPathComponent)
+            } else {
+                switch onConflict(naive) {
+                case .replace:
+                    do { try fm.removeItem(at: naive) }
+                    catch {
+                        NSLog("replace: removeItem failed: \(error.localizedDescription)")
+                        continue
+                    }
+                    target = naive
+                case .keepBoth:
+                    target = uniqueDestination(in: destination, name: source.lastPathComponent)
+                case .skip:
+                    target = nil
+                }
+            }
+
+            guard let dest = target else { continue }
             do {
-                try fm.moveItem(at: source, to: target)
+                if move {
+                    try fm.moveItem(at: source, to: dest)
+                } else {
+                    try fm.copyItem(at: source, to: dest)
+                }
                 ok += 1
             } catch {
-                NSLog("move failed: \(error.localizedDescription)")
+                NSLog("\(move ? "move" : "copy") failed: \(error.localizedDescription)")
             }
         }
         return ok

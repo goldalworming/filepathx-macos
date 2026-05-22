@@ -34,6 +34,7 @@
 		3A000000000000000000001C /* FileItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000001C /* FileItemProvider.swift */; };
 		3A000000000000000000001D /* FolderPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000001D /* FolderPreferences.swift */; };
 		3A000000000000000000001E /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000001E /* SessionStore.swift */; };
+		3A000000000000000000001F /* CopyConflictPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A000000000000000000001F /* CopyConflictPrompt.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		2A000000000000000000001C /* FileItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileItemProvider.swift; sourceTree = "<group>"; };
 		2A000000000000000000001D /* FolderPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderPreferences.swift; sourceTree = "<group>"; };
 		2A000000000000000000001E /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		2A000000000000000000001F /* CopyConflictPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyConflictPrompt.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 				2A000000000000000000001C /* FileItemProvider.swift */,
 				2A000000000000000000001D /* FolderPreferences.swift */,
 				2A000000000000000000001E /* SessionStore.swift */,
+				2A000000000000000000001F /* CopyConflictPrompt.swift */,
 				2A0000000000000000000014 /* Assets.xcassets */,
 				2A0000000000000000000015 /* FilePathX.entitlements */,
 			);
@@ -225,6 +228,7 @@
 				3A000000000000000000001C /* FileItemProvider.swift in Sources */,
 				3A000000000000000000001D /* FolderPreferences.swift in Sources */,
 				3A000000000000000000001E /* SessionStore.swift in Sources */,
+				3A000000000000000000001F /* CopyConflictPrompt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

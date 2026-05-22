@@ -84,10 +84,15 @@ private struct PanelView: View {
         let moveMode = NSEvent.modifierFlags.contains(.command)
         let filtered = urls.filter { $0.deletingLastPathComponent() != destination }
         guard !filtered.isEmpty else { return }
+        let prompter = CopyConflictPrompter()
         if moveMode {
-            FileSystemService.move(urls: filtered, to: destination)
+            FileSystemService.move(urls: filtered, to: destination) { target in
+                prompter.resolve(targetURL: target, isMove: true)
+            }
         } else {
-            FileSystemService.copy(urls: filtered, to: destination)
+            FileSystemService.copy(urls: filtered, to: destination) { target in
+                prompter.resolve(targetURL: target)
+            }
         }
         panel.activeTab?.reload()
         // Also refresh the other panel if it might be the source.

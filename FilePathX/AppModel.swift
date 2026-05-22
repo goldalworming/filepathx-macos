@@ -145,11 +145,16 @@ final class AppModel: ObservableObject {
     func paste(into destination: URL) {
         if !clipboard.isEmpty {
             let urls = clipboard.urls
+            let prompter = CopyConflictPrompter()
             switch clipboard.operation {
             case .copy:
-                FileSystemService.copy(urls: urls, to: destination)
+                FileSystemService.copy(urls: urls, to: destination) { target in
+                    prompter.resolve(targetURL: target)
+                }
             case .cut:
-                FileSystemService.move(urls: urls, to: destination)
+                FileSystemService.move(urls: urls, to: destination) { target in
+                    prompter.resolve(targetURL: target, isMove: true)
+                }
                 clipboard.urls = []
             }
             activeTab?.reload()
@@ -158,7 +163,10 @@ final class AppModel: ObservableObject {
         let pb = NSPasteboard.general
         if let objects = pb.readObjects(forClasses: [NSURL.self], options: nil) as? [URL],
            !objects.isEmpty {
-            FileSystemService.copy(urls: objects, to: destination)
+            let prompter = CopyConflictPrompter()
+            FileSystemService.copy(urls: objects, to: destination) { target in
+                prompter.resolve(targetURL: target)
+            }
             activeTab?.reload()
         }
     }
