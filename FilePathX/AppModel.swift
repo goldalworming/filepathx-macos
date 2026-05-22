@@ -187,6 +187,15 @@ final class AppModel: ObservableObject {
         saveBookmarks()
     }
 
+    func moveBookmarks(from source: IndexSet, to destination: Int) {
+        bookmarks.move(fromOffsets: source, toOffset: destination)
+        saveBookmarks()
+    }
+
+    func persistBookmarks() {
+        saveBookmarks()
+    }
+
     func isBookmarked(_ url: URL) -> Bool {
         bookmarks.contains(where: { $0.path == url.path })
     }
