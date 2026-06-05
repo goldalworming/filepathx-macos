@@ -59,6 +59,7 @@ struct DetailsView: View {
                             .truncationMode(.middle)
                     }
                 }
+                .opacity(entry.isHidden ? 0.8 : 1.0)
                 .fileDragSource(dragURLs(for: entry))
             }
             .width(min: 180, ideal: 320)
@@ -67,6 +68,7 @@ struct DetailsView: View {
                 Text(entry.typeDescription)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
+                    .opacity(entry.isHidden ? 0.8 : 1.0)
             }
             .width(min: 80, ideal: 120, max: 200)
 
@@ -74,6 +76,7 @@ struct DetailsView: View {
                 Text(entry.displayDate)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
+                    .opacity(entry.isHidden ? 0.8 : 1.0)
             }
             .width(min: 140, ideal: 170, max: 220)
 
@@ -82,6 +85,7 @@ struct DetailsView: View {
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .trailing)
+                    .opacity(entry.isHidden ? 0.8 : 1.0)
             }
             .width(min: 60, ideal: 80, max: 120)
         }

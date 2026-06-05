@@ -9,10 +9,11 @@ enum FileSystemService {
         .contentModificationDateKey,
         .localizedTypeDescriptionKey,
         .nameKey,
+        .isHiddenKey,
     ]
     private static let resourceKeySet = Set(resourceKeys)
 
-    static func contents(of url: URL, includeHidden: Bool = false) -> [FileEntry] {
+    static func contents(of url: URL, includeHidden: Bool = true) -> [FileEntry] {
         let opts: FileManager.DirectoryEnumerationOptions = includeHidden ? [] : [.skipsHiddenFiles]
         guard let urls = try? FileManager.default.contentsOfDirectory(
             at: url,
@@ -26,13 +27,16 @@ enum FileSystemService {
 
     static func entry(for url: URL) -> FileEntry? {
         guard let values = try? url.resourceValues(forKeys: resourceKeySet) else { return nil }
+        let name = values.name ?? url.lastPathComponent
+        let hidden = values.isHidden ?? name.hasPrefix(".")
         return FileEntry(
             url: url,
-            name: values.name ?? url.lastPathComponent,
+            name: name,
             isDirectory: values.isDirectory ?? false,
             size: Int64(values.fileSize ?? 0),
             modificationDate: values.contentModificationDate,
-            typeDescription: values.localizedTypeDescription ?? (values.isDirectory == true ? "Folder" : "File")
+            typeDescription: values.localizedTypeDescription ?? (values.isDirectory == true ? "Folder" : "File"),
+            isHidden: hidden
         )
     }
 

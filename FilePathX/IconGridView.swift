@@ -93,6 +93,7 @@ struct IconGridView: View {
                                      app.transferFocusToActivePanel()
                                  })
                             .frame(width: cellWidth, height: cellHeight)
+                            .opacity(entry.isHidden ? 0.8 : 1.0)
                             .background(
                                 GeometryReader { cellGeo in
                                     Color.clear.preference(

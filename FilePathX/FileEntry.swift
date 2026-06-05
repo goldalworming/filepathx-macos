@@ -7,6 +7,7 @@ struct FileEntry: Identifiable, Hashable {
     let size: Int64
     let modificationDate: Date?
     let typeDescription: String
+    let isHidden: Bool
 
     var id: URL { url }
 
