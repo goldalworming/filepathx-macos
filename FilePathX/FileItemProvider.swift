@@ -11,7 +11,7 @@ struct FileDragSource: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .gesture(
+            .simultaneousGesture(
                 DragGesture(minimumDistance: 4, coordinateSpace: .global)
                     .onChanged { _ in
                         guard !dragging else { return }

@@ -58,8 +58,45 @@ struct DetailsView: View {
                             .lineLimit(1)
                             .truncationMode(.middle)
                     }
+                    Spacer(minLength: 0)
                 }
+                .contentShape(Rectangle())
                 .opacity(entry.isHidden ? 0.8 : 1.0)
+                // Explicit selection handling: Table's NSTableView under the
+                // hood doesn't always receive clicks on cell content (it
+                // mostly works for files but is unreliable for folder names),
+                // so we drive the selection binding directly.
+                .onTapGesture(count: 2) {
+                    if !isActive { onActivate() }
+                    tab.open(entry)
+                }
+                .onTapGesture {
+                    if !isActive { onActivate() }
+                    let flags = NSEvent.modifierFlags
+                    if flags.contains(.command) {
+                        if tab.selection.contains(entry.id) {
+                            tab.selection.remove(entry.id)
+                        } else {
+                            tab.selection.insert(entry.id)
+                        }
+                    } else if flags.contains(.shift), !tab.selection.isEmpty {
+                        let ids = tab.entries.map(\.id)
+                        let selectedIdx = ids.enumerated()
+                            .filter { tab.selection.contains($0.element) }
+                            .map(\.offset)
+                        if let here = ids.firstIndex(of: entry.id),
+                           let lo = selectedIdx.min(),
+                           let hi = selectedIdx.max() {
+                            let anchor = here >= hi ? lo : hi
+                            let range = min(anchor, here)...max(anchor, here)
+                            tab.selection = Set(range.map { ids[$0] })
+                        } else {
+                            tab.selection = [entry.id]
+                        }
+                    } else {
+                        tab.selection = [entry.id]
+                    }
+                }
                 .fileDragSource(dragURLs(for: entry))
             }
             .width(min: 180, ideal: 320)
