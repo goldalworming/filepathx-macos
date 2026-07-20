@@ -194,6 +194,9 @@ final class KeyboardShortcutMonitor {
     }
 
     private func handleBatch(_ event: NSEvent, tab: BrowserTab) -> NSEvent? {
+        let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        let mods = flags.subtracting([.function, .numericPad])
+
         switch event.keyCode {
         case 36, 76: // Return / Numpad Enter → commit
             tab.commitBatchRename()
@@ -204,12 +207,25 @@ final class KeyboardShortcutMonitor {
         case 51: // Backspace → pop typed, then chop more from stem
             tab.batchBackspace()
             return nil
+        // Caret movement. ⌘←/⌘→ and Home/End (fn+←/→) jump to the ends, the
+        // same bindings a real text field uses.
+        case 123: // ←
+            if mods.contains(.command) { tab.batchMoveToStart() } else { tab.batchMoveLeft() }
+            return nil
+        case 124: // →
+            if mods.contains(.command) { tab.batchMoveToEnd() } else { tab.batchMoveRight() }
+            return nil
+        case 115: // Home
+            tab.batchMoveToStart()
+            return nil
+        case 119: // End
+            tab.batchMoveToEnd()
+            return nil
         default:
             break
         }
 
-        // Append printable characters (let ⌘-anything pass through so Cmd+Q etc. still work)
-        let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        // Let ⌘-anything else pass through so ⌘Q etc. still work.
         if flags.contains(.command) { return event }
         // Use `characters` so Shift produces uppercase; filter private-use
         // function-key scalars (0xF700+) like arrows / F-keys.

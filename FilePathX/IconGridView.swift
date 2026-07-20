@@ -80,8 +80,7 @@ struct IconGridView: View {
                                  panelIsActive: isActive,
                                  renaming: tab.renamingID == entry.id,
                                  batchActive: tab.batchActive && tab.selection.contains(entry.id),
-                                 batchTyped: tab.batchTyped,
-                                 batchChop: tab.batchChop,
+                                 batchEdit: tab.batchEdit,
                                  renameBinding: $tab.renameText,
                                  renameFocused: $renameFocused,
                                  onCommitRename: {
@@ -211,8 +210,7 @@ private struct GridCell: View {
     let panelIsActive: Bool
     let renaming: Bool
     let batchActive: Bool
-    let batchTyped: String
-    let batchChop: Int
+    let batchEdit: BatchEdit
     @Binding var renameBinding: String
     @FocusState.Binding var renameFocused: Bool
     var onCommitRename: () -> Void
@@ -242,8 +240,7 @@ private struct GridCell: View {
                     .onExitCommand { onCancelRename() }
             } else if batchActive {
                 BatchRenameInline(entry: entry,
-                                  typed: batchTyped,
-                                  chop: batchChop,
+                                  edit: batchEdit,
                                   font: .system(size: 11))
             } else {
                 Text(entry.name)

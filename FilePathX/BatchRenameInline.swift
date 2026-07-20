@@ -1,19 +1,16 @@
 import SwiftUI
 
 /// Per-row composite rendered when `BrowserTab.batchActive` is true and the row
-/// is selected. Mirrors the C source's batch rename UI:
-/// `<original stem minus chop>` (primary) + `<typed>` (green) + cursor + `.<ext>` (dim).
+/// is selected. Mirrors the C source's batch rename UI, with the caret drawn
+/// wherever `BatchEdit` currently points:
+/// `<stem before the edit>` (primary) + `<typed>` (green, split by the cursor)
+/// + `<stem after the edit>` + `.<ext>` (dim).
 struct BatchRenameInline: View {
     let entry: FileEntry
-    let typed: String
-    let chop: Int
+    let edit: BatchEdit
     var font: Font = .system(size: 12)
 
-    private var stemAfterChop: String {
-        let stem = (entry.name as NSString).deletingPathExtension
-        let keep = max(0, stem.count - chop)
-        return String(stem.prefix(keep))
-    }
+    private var stem: String { (entry.name as NSString).deletingPathExtension }
 
     private var extWithDot: String {
         let ext = (entry.name as NSString).pathExtension
@@ -21,13 +18,19 @@ struct BatchRenameInline: View {
     }
 
     var body: some View {
+        let (head, tail) = edit.split(stem: stem)
+        let (typedBefore, typedAfter) = edit.typedAroundCursor
         HStack(spacing: 0) {
-            Text(stemAfterChop)
+            Text(head)
                 .foregroundStyle(.primary)
-            Text(typed)
+            Text(typedBefore)
                 .foregroundStyle(Color.green)
             BlinkingCursor()
                 .padding(.horizontal, 1)
+            Text(typedAfter)
+                .foregroundStyle(Color.green)
+            Text(tail)
+                .foregroundStyle(.primary)
             Text(extWithDot)
                 .foregroundStyle(.secondary)
         }

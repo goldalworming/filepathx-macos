@@ -62,9 +62,7 @@ struct DetailsView: View {
                                 app.transferFocusToActivePanel()
                             }
                     } else if tab.batchActive, tab.selection.contains(entry.id) {
-                        BatchRenameInline(entry: entry,
-                                          typed: tab.batchTyped,
-                                          chop: tab.batchChop)
+                        BatchRenameInline(entry: entry, edit: tab.batchEdit)
                     } else {
                         Text(entry.name)
                             .lineLimit(1)

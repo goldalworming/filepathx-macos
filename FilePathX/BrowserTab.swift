@@ -62,11 +62,11 @@ final class BrowserTab: ObservableObject, Identifiable {
     /// the previous race against a fixed `asyncAfter` delay.
     private var pendingRenameURL: URL? = nil
 
-    // Inline batch rename state (C-source style): each selected row shows
-    // `<original stem minus chop><typed><cursor>.<ext>`.
+    // Inline batch rename state (C-source style): every selected row shows the
+    // same edit applied to its own name. `BatchEdit` carries the caret, so
+    // ←/→/Home/End work like a normal text field.
     @Published var batchActive: Bool = false
-    @Published var batchTyped: String = ""
-    @Published var batchChop: Int = 0
+    @Published var batchEdit = BatchEdit()
 
     private var history: [URL] = []
     private var historyIndex: Int = 0
@@ -332,7 +332,7 @@ final class BrowserTab: ObservableObject, Identifiable {
     }
 
     /// Starts inline batch rename. Each selected row becomes an editor that shares
-    /// the same `batchTyped` + `batchChop`. Falls back to single-file inline rename
+    /// the same `batchEdit`. Falls back to single-file inline rename
     /// when only one item is selected.
     func beginBatchRename(urls: [URL]? = nil) {
         let targets = urls ?? selectedURLs
@@ -343,55 +343,43 @@ final class BrowserTab: ObservableObject, Identifiable {
             return
         }
         batchActive = true
-        batchTyped = ""
-        batchChop = 0
+        batchEdit = BatchEdit()
     }
 
     func cancelBatchRename() {
         batchActive = false
-        batchTyped = ""
-        batchChop = 0
+        batchEdit = BatchEdit()
     }
 
     func commitBatchRename() {
         guard batchActive else { return }
-        let active = batchActive
-        let typed = batchTyped
-        let chop = batchChop
+        let edit = batchEdit
         batchActive = false
-        batchTyped = ""
-        batchChop = 0
+        batchEdit = BatchEdit()
 
-        guard active, typed.count > 0 || chop > 0 else { return }
+        guard edit.hasChanges else { return }
 
         for entry in selectedEntries {
-            let original = entry.name
-            let stem = (original as NSString).deletingPathExtension
-            let ext = (original as NSString).pathExtension
-            let keep = max(0, stem.count - chop)
-            let newStem = String(stem.prefix(keep)) + typed
-            guard !newStem.isEmpty else { continue }
-            let newName = ext.isEmpty ? newStem : "\(newStem).\(ext)"
-            if newName != original {
+            let newName = edit.newName(for: entry.name)
+            if newName != entry.name {
                 _ = FileSystemService.rename(entry.url, to: newName)
             }
         }
         reload()
     }
 
-    func batchBackspace() {
+    /// Mutates the shared edit, but only while batch rename is running.
+    private func editBatch(_ body: (inout BatchEdit) -> Void) {
         guard batchActive else { return }
-        if !batchTyped.isEmpty {
-            batchTyped.removeLast()
-        } else {
-            batchChop += 1
-        }
+        body(&batchEdit)
     }
 
-    func batchAppend(_ text: String) {
-        guard batchActive else { return }
-        batchTyped += text
-    }
+    func batchBackspace()          { editBatch { $0.deleteBackward() } }
+    func batchAppend(_ text: String) { editBatch { $0.insert(text) } }
+    func batchMoveLeft()           { editBatch { $0.moveLeft() } }
+    func batchMoveRight()          { editBatch { $0.moveRight() } }
+    func batchMoveToStart()        { editBatch { $0.moveToStart() } }
+    func batchMoveToEnd()          { editBatch { $0.moveToEnd() } }
 
     func commitRename() {
         guard let id = renamingID,
