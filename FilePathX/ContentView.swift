@@ -19,6 +19,7 @@ struct ContentView: View {
             HStack(spacing: 0) {
                 ForEach(Array(app.panels.enumerated()), id: \.element.id) { idx, panel in
                     PanelView(panel: panel,
+                              finder: app.finder,
                               showSidebar: $showSidebar,
                               isLeftmost: idx == 0,
                               isActive: idx == app.activePanelIndex)
@@ -41,6 +42,8 @@ struct ContentView: View {
 private struct PanelView: View {
     @EnvironmentObject var app: AppModel
     @ObservedObject var panel: Panel
+    /// Observed so the overlay appears/disappears as the finder opens/closes.
+    @ObservedObject var finder: FuzzyFinder
     @Binding var showSidebar: Bool
     let isLeftmost: Bool
     let isActive: Bool
@@ -67,6 +70,12 @@ private struct PanelView: View {
             }
         }
         .frame(minWidth: 400, maxWidth: .infinity)
+        // ⌘F search overlay — only over the panel that opened it.
+        .overlay {
+            if finder.isOpen, finder.panelID == panel.id, let tab = panel.activeTab {
+                FuzzyFinderView(finder: finder, tab: tab)
+            }
+        }
         .overlay(
             // Accent border on active panel when split
             Rectangle()

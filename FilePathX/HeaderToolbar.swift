@@ -115,6 +115,16 @@ private struct ActiveTabSection: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .frame(minHeight: 24)
 
+            Button {
+                app.finder.open(tab: tab, panelID: app.activePanel.id)
+            } label: {
+                Image(systemName: "magnifyingglass")
+                    .font(.system(size: 13, weight: .semibold))
+                    .frame(width: 24, height: 24)
+            }
+            .buttonStyle(.borderless)
+            .help("Search (⌘F)")
+
             Menu {
                 SortMenuItems(tab: tab)
             } label: {

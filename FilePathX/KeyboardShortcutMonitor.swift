@@ -34,6 +34,15 @@ final class KeyboardShortcutMonitor {
             return handleBatch(event, tab: tab)
         }
 
+        // The search overlay takes navigation keys; everything else falls
+        // through to its text field so typing keeps working.
+        if app.finder.isOpen {
+            switch handleFinder(event, finder: app.finder, tab: tab) {
+            case .consumed:    return nil
+            case .passThrough: return event
+            }
+        }
+
         // Don't intercept while a text input is *actively editing* — let it
         // handle arrows / typing. NSTextView is the actual editor (and also
         // serves as field editor for NSTextField), so checking that alone
@@ -126,6 +135,9 @@ final class KeyboardShortcutMonitor {
         guard flags == .command else { return event }
 
         switch event.keyCode {
+        case 3: // ⌘F → open the fuzzy finder on the active panel
+            app.finder.open(tab: tab, panelID: app.activePanel.id)
+            return nil
         case 14: // ⌘E → rename (sheet for multi-select, inline for single)
             if tab.selection.count >= 2 {
                 tab.beginBatchRename()
@@ -190,6 +202,58 @@ final class KeyboardShortcutMonitor {
             tab.selection.insert(nextID)
         } else {
             tab.selection = [nextID]
+        }
+    }
+
+    private enum FinderDisposition { case consumed, passThrough }
+
+    /// While the search overlay is up it owns navigation; typing (and ⌘-keys
+    /// we don't claim) goes through to its text field / the menu bar.
+    private func handleFinder(_ event: NSEvent, finder: FuzzyFinder,
+                              tab: BrowserTab) -> FinderDisposition {
+        let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        let mods = flags.subtracting([.function, .numericPad])
+
+        if mods == .command {
+            switch event.keyCode {
+            case 15: // ⌘R → toggle recursive
+                finder.toggleRecursive()
+                return .consumed
+            case 3:  // ⌘F again → close
+                finder.close()
+                return .consumed
+            case 47: // ⌘. → stop the scan without closing
+                finder.stopScan()
+                return .consumed
+            default:
+                return .passThrough
+            }
+        }
+
+        switch event.keyCode {
+        case 53: // Escape
+            finder.close()
+            app?.transferFocusToActivePanel()
+            return .consumed
+        case 36, 76: // Return / Enter
+            finder.activate(in: tab)
+            app?.transferFocusToActivePanel()
+            return .consumed
+        case 126: // ↑
+            finder.moveSelection(by: -1)
+            return .consumed
+        case 125: // ↓
+            finder.moveSelection(by: 1)
+            return .consumed
+        case 116: // Page Up
+            finder.moveSelection(by: -10)
+            return .consumed
+        case 121: // Page Down
+            finder.moveSelection(by: 10)
+            return .consumed
+        default:
+            // Everything else (including ←/→/Home/End) belongs to the field.
+            return .passThrough
         }
     }
 

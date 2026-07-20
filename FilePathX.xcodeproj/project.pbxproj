@@ -12,6 +12,9 @@
 		3A0000000000000000000003 /* BrowserTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000003 /* BrowserTab.swift */; };
 		3A0000000000000000000004 /* FileEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000004 /* FileEntry.swift */; };
 		3A0000000000000000000005 /* ViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000005 /* ViewMode.swift */; };
+		3A0000000000000000000022 /* FuzzyMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000022 /* FuzzyMatcher.swift */; };
+		3A0000000000000000000023 /* FuzzyFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000023 /* FuzzyFinder.swift */; };
+		3A0000000000000000000024 /* FuzzyFinderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000024 /* FuzzyFinderView.swift */; };
 		3A0000000000000000000021 /* BatchEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000021 /* BatchEdit.swift */; };
 		3A0000000000000000000020 /* SortMenuItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000020 /* SortMenuItems.swift */; };
 		3A0000000000000000000006 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000006 /* SidebarItem.swift */; };
@@ -46,6 +49,9 @@
 		2A0000000000000000000003 /* BrowserTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserTab.swift; sourceTree = "<group>"; };
 		2A0000000000000000000004 /* FileEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileEntry.swift; sourceTree = "<group>"; };
 		2A0000000000000000000005 /* ViewMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMode.swift; sourceTree = "<group>"; };
+		2A0000000000000000000022 /* FuzzyMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuzzyMatcher.swift; sourceTree = "<group>"; };
+		2A0000000000000000000023 /* FuzzyFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuzzyFinder.swift; sourceTree = "<group>"; };
+		2A0000000000000000000024 /* FuzzyFinderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuzzyFinderView.swift; sourceTree = "<group>"; };
 		2A0000000000000000000021 /* BatchEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchEdit.swift; sourceTree = "<group>"; };
 		2A0000000000000000000020 /* SortMenuItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortMenuItems.swift; sourceTree = "<group>"; };
 		2A0000000000000000000006 /* SidebarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
@@ -110,6 +116,9 @@
 				2A0000000000000000000003 /* BrowserTab.swift */,
 				2A0000000000000000000004 /* FileEntry.swift */,
 				2A0000000000000000000005 /* ViewMode.swift */,
+				2A0000000000000000000022 /* FuzzyMatcher.swift */,
+				2A0000000000000000000023 /* FuzzyFinder.swift */,
+				2A0000000000000000000024 /* FuzzyFinderView.swift */,
 				2A0000000000000000000021 /* BatchEdit.swift */,
 				2A0000000000000000000020 /* SortMenuItems.swift */,
 				2A0000000000000000000006 /* SidebarItem.swift */,
@@ -214,6 +223,9 @@
 				3A0000000000000000000003 /* BrowserTab.swift in Sources */,
 				3A0000000000000000000004 /* FileEntry.swift in Sources */,
 				3A0000000000000000000005 /* ViewMode.swift in Sources */,
+				3A0000000000000000000022 /* FuzzyMatcher.swift in Sources */,
+				3A0000000000000000000023 /* FuzzyFinder.swift in Sources */,
+				3A0000000000000000000024 /* FuzzyFinderView.swift in Sources */,
 				3A0000000000000000000021 /* BatchEdit.swift in Sources */,
 				3A0000000000000000000020 /* SortMenuItems.swift in Sources */,
 				3A0000000000000000000006 /* SidebarItem.swift in Sources */,

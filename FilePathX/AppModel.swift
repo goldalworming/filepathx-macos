@@ -9,6 +9,8 @@ final class AppModel: ObservableObject {
     @Published var sidebarItems: [SidebarItem] = SidebarItem.defaults
     @Published var bookmarks: [SidebarItem] = []
     @Published var clipboard = FileClipboard()
+    /// ⌘F search overlay. Shared app-wide; it records which panel opened it.
+    let finder = FuzzyFinder()
 
     private let bookmarksKey = "FilePathX.bookmarks.v1"
     private var keyboardMonitor: KeyboardShortcutMonitor?

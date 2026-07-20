@@ -62,6 +62,10 @@ final class BrowserTab: ObservableObject, Identifiable {
     /// the previous race against a fixed `asyncAfter` delay.
     private var pendingRenameURL: URL? = nil
 
+    /// Set by `reveal(_:)` when we had to navigate first: once entries arrive
+    /// this URL gets selected and scrolled into view.
+    private var pendingRevealURL: URL? = nil
+
     // Inline batch rename state (C-source style): every selected row shows the
     // same edit applied to its own name. `BatchEdit` carries the caret, so
     // ←/→/Home/End work like a normal text field.
@@ -181,6 +185,22 @@ final class BrowserTab: ObservableObject, Identifiable {
         SessionStore.shared.scheduleSave()
     }
 
+    /// Focus `url` in this tab: navigate to its folder if we're not already
+    /// there, then select the item and scroll it into view. Used by the fuzzy
+    /// finder when the hit is a file.
+    func reveal(_ url: URL) {
+        let parent = url.deletingLastPathComponent()
+        if parent.standardizedFileURL.path == self.url.standardizedFileURL.path {
+            if let entry = entries.first(where: { $0.url.path == url.path }) {
+                selection = [entry.id]
+                pendingScrollToID = entry.id
+            }
+            return
+        }
+        pendingRevealURL = url
+        navigate(to: parent)
+    }
+
     func goUp() {
         guard canGoUp else { return }
         let comingFrom = url.lastPathComponent
@@ -213,6 +233,10 @@ final class BrowserTab: ObservableObject, Identifiable {
                     self.pendingScrollToID = entry.id
                     self.renameText = entry.name
                     self.renamingID = entry.id
+                } else if let url = self.pendingRevealURL,
+                          let entry = self.entries.first(where: { $0.url.path == url.path }) {
+                    self.selection = [entry.id]
+                    self.pendingScrollToID = entry.id
                 } else if let name = self.pendingFocusName,
                           let entry = self.entries.first(where: { $0.name == name }) {
                     self.selection = [entry.id]
@@ -222,6 +246,7 @@ final class BrowserTab: ObservableObject, Identifiable {
                     self.selection = [first.id]
                 }
                 self.pendingRenameURL = nil
+                self.pendingRevealURL = nil
                 self.pendingFocusName = nil
             }
         }
