@@ -24,9 +24,20 @@ enum ViewMode: String, CaseIterable, Identifiable, Hashable, Codable {
     }
 }
 
-enum SortColumn: String, Hashable, Codable {
+enum SortColumn: String, CaseIterable, Identifiable, Hashable, Codable {
     case name
     case kind
     case modified
     case size
+
+    var id: String { rawValue }
+
+    var label: String {
+        switch self {
+        case .name: return "Name"
+        case .kind: return "Kind"
+        case .modified: return "Date Modified"
+        case .size: return "Size"
+        }
+    }
 }

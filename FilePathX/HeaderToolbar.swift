@@ -115,6 +115,17 @@ private struct ActiveTabSection: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .frame(minHeight: 24)
 
+            Menu {
+                SortMenuItems(tab: tab)
+            } label: {
+                Image(systemName: "arrow.up.arrow.down")
+                    .font(.system(size: 13, weight: .semibold))
+            }
+            .menuStyle(.borderlessButton)
+            .menuIndicator(.hidden)
+            .fixedSize()
+            .help("Sort By")
+
             Picker("", selection: $tab.viewMode) {
                 ForEach(ViewMode.allCases) { mode in
                     Image(systemName: mode.systemImage).tag(mode)

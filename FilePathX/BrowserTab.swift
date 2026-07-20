@@ -2,6 +2,22 @@ import Foundation
 import Combine
 import AppKit
 
+private func compare<T: Comparable>(_ a: T, _ b: T) -> ComparisonResult {
+    if a < b { return .orderedAscending }
+    if b < a { return .orderedDescending }
+    return .orderedSame
+}
+
+private extension ComparisonResult {
+    var reversed: ComparisonResult {
+        switch self {
+        case .orderedAscending: return .orderedDescending
+        case .orderedDescending: return .orderedAscending
+        case .orderedSame: return .orderedSame
+        }
+    }
+}
+
 @MainActor
 final class BrowserTab: ObservableObject, Identifiable {
     let id = UUID()
@@ -213,33 +229,86 @@ final class BrowserTab: ObservableObject, Identifiable {
 
     // MARK: - Sorting
 
+    /// Click-on-header behaviour: same column toggles direction, a new column
+    /// starts ascending.
     func setSort(column: SortColumn) {
         if sortColumn == column {
-            sortAscending.toggle()
+            setSort(column: column, ascending: !sortAscending)
         } else {
-            sortColumn = column
-            sortAscending = true
+            setSort(column: column, ascending: true)
         }
+    }
+
+    /// Explicit setter used by the sort menus and by the Table's `sortOrder`
+    /// binding (where AppKit has already decided the direction for us).
+    func setSort(column: SortColumn, ascending: Bool) {
+        guard column != sortColumn || ascending != sortAscending else { return }
+        applyingPrefs = true            // one write instead of two
+        sortColumn = column
+        applyingPrefs = false
+        sortAscending = ascending       // didSet persists both values
         entries = applySort(entries)
     }
 
-    private func applySort(_ items: [FileEntry]) -> [FileEntry] {
-        let cmp: (FileEntry, FileEntry) -> Bool
+    /// Bridges our `SortColumn` + direction to the comparator array `Table`
+    /// wants for its clickable, arrow-drawing headers.
+    var tableSortOrder: [KeyPathComparator<FileEntry>] {
+        let order: SortOrder = sortAscending ? .forward : .reverse
         switch sortColumn {
         case .name:
-            cmp = { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+            return [KeyPathComparator(\FileEntry.name, order: order)]
         case .kind:
-            cmp = { $0.typeDescription.localizedStandardCompare($1.typeDescription) == .orderedAscending }
+            return [KeyPathComparator(\FileEntry.typeDescription, order: order)]
         case .modified:
-            cmp = { $0.modificationSortKey < $1.modificationSortKey }
+            return [KeyPathComparator(\FileEntry.modificationSortKey, order: order)]
         case .size:
-            cmp = { $0.size < $1.size }
+            return [KeyPathComparator(\FileEntry.size, order: order)]
         }
-        let sorted = items.sorted { a, b in
+    }
+
+    /// Inverse of `tableSortOrder`: called when the user clicks a header.
+    /// We re-sort ourselves rather than letting `Table` do it, so folders keep
+    /// sorting ahead of files.
+    func applyTableSortOrder(_ order: [KeyPathComparator<FileEntry>]) {
+        guard let first = order.first else { return }
+        let column: SortColumn
+        switch first.keyPath {
+        case \FileEntry.name: column = .name
+        case \FileEntry.typeDescription: column = .kind
+        case \FileEntry.modificationSortKey: column = .modified
+        case \FileEntry.size: column = .size
+        default: return
+        }
+        setSort(column: column, ascending: first.order == .forward)
+    }
+
+    private func applySort(_ items: [FileEntry]) -> [FileEntry] {
+        // Returning a ComparisonResult (rather than a Bool we later negate)
+        // keeps the ordering strict-weak in both directions — negating a `<`
+        // predicate makes equal elements compare "less" both ways, which is an
+        // invalid ordering and can trap inside sort().
+        let cmp: (FileEntry, FileEntry) -> ComparisonResult
+        switch sortColumn {
+        case .name:
+            cmp = { $0.name.localizedStandardCompare($1.name) }
+        case .kind:
+            cmp = { $0.typeDescription.localizedStandardCompare($1.typeDescription) }
+        case .modified:
+            cmp = { compare($0.modificationSortKey, $1.modificationSortKey) }
+        case .size:
+            cmp = { compare($0.size, $1.size) }
+        }
+        return items.sorted { a, b in
             if a.isDirectory != b.isDirectory { return a.isDirectory }
-            return sortAscending ? cmp(a, b) : !cmp(a, b)
+            var result = cmp(a, b)
+            if !sortAscending { result = result.reversed }
+            if result == .orderedSame {
+                // Stable, direction-independent tiebreak so equal sizes/dates
+                // don't shuffle between reloads.
+                return a.name.localizedStandardCompare(b.name) == .orderedAscending
+            }
+            return result == .orderedAscending
         }
-        return sorted
     }
 
     // MARK: - Selection helpers

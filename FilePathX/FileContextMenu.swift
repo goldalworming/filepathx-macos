@@ -103,6 +103,11 @@ struct FileContextMenu: View {
             .disabled(!app.canPaste)
 
         Divider()
+        Menu("Sort By") {
+            SortMenuItems(tab: tab)
+        }
+
+        Divider()
         Button("Refresh") { tab.reload() }
         Button("Open in Terminal") {
             FileSystemService.openInTerminal(tab.url)

@@ -29,9 +29,21 @@ struct DetailsView: View {
         )
     }
 
+    /// Header clicks arrive here. `BrowserTab` owns the actual sort (it keeps
+    /// folders first), so we just translate the comparator back and forth.
+    private var sortOrderBinding: Binding<[KeyPathComparator<FileEntry>]> {
+        Binding(
+            get: { tab.tableSortOrder },
+            set: { newValue in
+                if !isActive { onActivate() }
+                tab.applyTableSortOrder(newValue)
+            }
+        )
+    }
+
     var body: some View {
-        Table(tab.entries, selection: selectionBinding) {
-            TableColumn("Name") { entry in
+        Table(tab.entries, selection: selectionBinding, sortOrder: sortOrderBinding) {
+            TableColumn("Name", value: \.name) { entry in
                 HStack(spacing: 6) {
                     FileIcon(url: entry.url, size: 16)
                     if tab.renamingID == entry.id {
@@ -101,7 +113,7 @@ struct DetailsView: View {
             }
             .width(min: 180, ideal: 320)
 
-            TableColumn("Kind") { entry in
+            TableColumn("Kind", value: \.typeDescription) { entry in
                 Text(entry.typeDescription)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
@@ -109,7 +121,7 @@ struct DetailsView: View {
             }
             .width(min: 80, ideal: 120, max: 200)
 
-            TableColumn("Date Modified") { entry in
+            TableColumn("Date Modified", value: \.modificationSortKey) { entry in
                 Text(entry.displayDate)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
@@ -117,7 +129,7 @@ struct DetailsView: View {
             }
             .width(min: 140, ideal: 170, max: 220)
 
-            TableColumn("Size") { entry in
+            TableColumn("Size", value: \.size) { entry in
                 Text(entry.displaySize)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)

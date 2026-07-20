@@ -12,6 +12,7 @@
 		3A0000000000000000000003 /* BrowserTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000003 /* BrowserTab.swift */; };
 		3A0000000000000000000004 /* FileEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000004 /* FileEntry.swift */; };
 		3A0000000000000000000005 /* ViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000005 /* ViewMode.swift */; };
+		3A0000000000000000000020 /* SortMenuItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000020 /* SortMenuItems.swift */; };
 		3A0000000000000000000006 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000006 /* SidebarItem.swift */; };
 		3A0000000000000000000007 /* FileClipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000007 /* FileClipboard.swift */; };
 		3A0000000000000000000008 /* FileSystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0000000000000000000008 /* FileSystemService.swift */; };
@@ -44,6 +45,7 @@
 		2A0000000000000000000003 /* BrowserTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserTab.swift; sourceTree = "<group>"; };
 		2A0000000000000000000004 /* FileEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileEntry.swift; sourceTree = "<group>"; };
 		2A0000000000000000000005 /* ViewMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMode.swift; sourceTree = "<group>"; };
+		2A0000000000000000000020 /* SortMenuItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortMenuItems.swift; sourceTree = "<group>"; };
 		2A0000000000000000000006 /* SidebarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
 		2A0000000000000000000007 /* FileClipboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileClipboard.swift; sourceTree = "<group>"; };
 		2A0000000000000000000008 /* FileSystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemService.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				2A0000000000000000000003 /* BrowserTab.swift */,
 				2A0000000000000000000004 /* FileEntry.swift */,
 				2A0000000000000000000005 /* ViewMode.swift */,
+				2A0000000000000000000020 /* SortMenuItems.swift */,
 				2A0000000000000000000006 /* SidebarItem.swift */,
 				2A0000000000000000000007 /* FileClipboard.swift */,
 				2A0000000000000000000008 /* FileSystemService.swift */,
@@ -208,6 +211,7 @@
 				3A0000000000000000000003 /* BrowserTab.swift in Sources */,
 				3A0000000000000000000004 /* FileEntry.swift in Sources */,
 				3A0000000000000000000005 /* ViewMode.swift in Sources */,
+				3A0000000000000000000020 /* SortMenuItems.swift in Sources */,
 				3A0000000000000000000006 /* SidebarItem.swift in Sources */,
 				3A0000000000000000000007 /* FileClipboard.swift in Sources */,
 				3A0000000000000000000008 /* FileSystemService.swift in Sources */,

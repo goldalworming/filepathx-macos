@@ -146,6 +146,11 @@ struct IconGridView: View {
                 .onPreferenceChange(CellFramesKey.self) { cellFrames = $0 }
             }
             .background(Color(NSColor.controlBackgroundColor))
+            // Empty-area menu: the icon views have no column headers, so this
+            // is where sorting lives for them (the per-cell menu wins on cells).
+            .contextMenu {
+                FileContextMenu(tab: tab, selectionIDs: [])
+            }
             .onChange(of: tab.renamingID) { new in
                 guard new != nil else { return }
                 DispatchQueue.main.async { renameFocused = true }
